@@ -9,7 +9,7 @@ m2 = (120-50)/(431-183)
 radius = lambda y: m2*y
 
 class CentroidTracker:
-	def __init__(self, maxDisappeared=50, maxDistance=30, vehiclesTypes=None, SAVE_DETS = False, SAVE_PATH = None):
+	def __init__(self, maxDisappeared=50, maxDistance=30):
 		
 		# initialize the next unique object ID along with two ordered
 		# dictionaries used to keep track of mapping a given object
@@ -22,20 +22,6 @@ class CentroidTracker:
 		self.disappeared = OrderedDict()
 		self.carRouteIn = {}
 		self.carRouteOut = {}
-		self.SAVE_DETS = SAVE_DETS
-		self.SAVE_PATH = SAVE_PATH
-
-		if(SAVE_PATH == None):
-			self.SAVE_DETS = False
-
-		self.vehiclesTypes = vehiclesTypes
-		if self.vehiclesTypes:
-			self.vehicleCount = []
-			for vtype in vehiclesTypes:
-				self.vehicleCount.append(0)
-		else:
-			self.vehicleCount = 0
-
 		# store the number of maximum consecutive frames a given
 		# object is allowed to be marked as "disappeared" until we
 		# need to deregister the object from tracking
@@ -45,9 +31,6 @@ class CentroidTracker:
 		# an object -- if the distance is larger than this maximum
 		# distance we'll start to mark the object as "disappeared"
 		self.maxDistance = maxDistance
-	
-	def get_vehicleCount(self):
-		return self.vehicleCount
 
 	def carsRoutein(self):
 		return self.carRouteIn
@@ -70,20 +53,14 @@ class CentroidTracker:
 
 		obj_tosave = '{}_{}'.format(carType,self.nextObjectID)
 
-		if self.SAVE_DETS:
-			if(carType == "b'car'" ):
-				cv2.imwrite(self.SAVE_PATH + '/counting3/' + 'cars/' + obj_tosave + '.jpg',frame[ box[1]:box[3],box[0]:box[2],: ] )
-			elif( carType == "b'motorbike'" ):
-				cv2.imwrite(self.SAVE_PATH + '/counting3/' + 'motorbikes/' + obj_tosave + '.jpg',frame[ box[1]:box[3],box[0]:box[2],: ] )
-			elif( (carType == "b'bus'") or (carType == "b'truck'") ):
-				cv2.imwrite(self.SAVE_PATH + '/counting3/' + 'heavy/' + obj_tosave + '.jpg',frame[ box[1]:box[3],box[0]:box[2],: ] )
-			else:
-				print('error {} not saved'.format(to.vehicle) )
-		
-		if self.vehiclesTypes:
-			for i,vtype in enumerate(self.vehiclesTypes):
-				if(carType == vtype):
-					self.vehicleCount[i] += 1
+		if(carType == "b'car'" ):
+			cv2.imwrite('/home/pdi/Felipe_data/counting3/' + 'cars/' + obj_tosave + '.jpg',frame[ box[1]:box[3],box[0]:box[2],: ] )
+		elif( carType == "b'motorbike'" ):
+			cv2.imwrite('/home/pdi/Felipe_data/counting3/' + 'motorbikes/' + obj_tosave + '.jpg',frame[ box[1]:box[3],box[0]:box[2],: ] )
+		elif( (carType == "b'bus'") or (carType == "b'truck'") ):
+			cv2.imwrite('/home/pdi/Felipe_data/counting3/' + 'heavy/' + obj_tosave + '.jpg',frame[ box[1]:box[3],box[0]:box[2],: ] )
+		else:
+			print('error {} not saved'.format(to.vehicle) )
 		
 
 		self.objects[self.nextObjectID] = centroid
