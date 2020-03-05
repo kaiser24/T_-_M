@@ -1,0 +1,18 @@
+{"state": "free", "poly": 
+
+    [
+        {
+            "y": 195, "x": 237
+        },
+        {
+            "y": 404, "x": 163
+        },
+        {
+            "y": 395, "x": 666
+        },
+        {
+            "y": 163, "x": 491
+        }
+    ],
+    
+        "video": "/home/pdi/Felipe_data/T&M_videos2process/Mimos CAM_IPC/Mimos CAM_IPC.avi", "errors": null, "Warnings": null, "count": {"heavy": 32, "cars": 105, "motorbikes": 30}, "progress": "100.0%"}
